@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ayush's Basic Web Page - Task 1</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: Arial, sans-serif;
+      background-color: #0b0c10;
+      color: #00ffe1;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 30px;
+      color: #c9d1d9;
+    }
+
+    img {
+      width: 300px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #00ffe1;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: transparent;
+      border: 2px solid #00ffe1;
+      color: #00ffe1;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00ffe1;
+      color: #0b0c10;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Ayush's Web Page</h1>
+  <p> Kicked off my 45-day code challenge with ApexPlanet by building this basic HTML, 
+CSS, and JavaScript webpage. This project is part of a guided, self-paced learning program 
+designed to strengthen frontend development skills through practical, hands-on tasks.</p>
+
+  <img src="th.jpeg" alt="Image">
+
+  <br>
+  <a href="https://github.com/ayushfande2003" target="_blank">Visit My GitHub</a>
+
+  <br><br>
+  <button onclick="showMessage()">Click Me</button>
+
+  <script>
+    function showMessage() {
+      alert("Thanks for visiting my first web page!");
+    }
+  </script>
+</body>
+</html>
