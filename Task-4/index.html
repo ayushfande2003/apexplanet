@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayush Vitthal Fande - Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #7c3aed;
+            --accent-color: #ff6b6b;
+            --text-light: #ffffff;
+            --text-muted: #b8c3d9;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --dark-bg: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Starfield Background */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        .star.small { width: 1px; height: 1px; }
+        .star.medium { width: 2px; height: 2px; }
+        .star.large { width: 3px; height: 3px; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .comet {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-color);
+            animation: comet-fly 8s linear infinite;
+        }
+
+        @keyframes comet-fly {
+            0% {
+                transform: translateX(-100px) translateY(100px);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+            background: var(--glass-bg);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            width: 80%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-light);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Pages Container */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 2;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Glass Card Component */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+        }
+
+        /* About Page */
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-header h2 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .skill-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+            animation: fillBar 2s ease-in-out;
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+            to { width: var(--progress); }
+        }
+
+        /* Projects Page */
+        .projects-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--glass-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .project-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+
+        /* Todo App */
+        .todo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .todo-input-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .todo-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--glass-bg);
+            color: var(--text-light);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .todo-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .add-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            animation: slideIn 0.3s ease;
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .todo-checkbox {
+            margin-right: 1rem;
+        }
+
+        .todo-text {
+            flex: 1;
+        }
+
+        .delete-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+            transform: scale(1.1);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Product Filter */
+        .products-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-light);
+            backdrop-filter: blur(20px);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .product-rating {
+            color: #ffd700;
+            margin: 0.5rem 0;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Contact Page */
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .contact-form {
+            background: var(--glass-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+            text-shadow: 0 0 20px var(--primary-color);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Priority badges */
+        .priority-badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .priority-low { 
+            background: rgba(76, 175, 80, 0.2); 
+            color: #4caf50; 
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .priority-medium { 
+            background: rgba(255, 193, 7, 0.2); 
+            color: #ffc107; 
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .priority-high { 
+            background: rgba(244, 67, 54, 0.2); 
+            color: #f44336; 
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .skills-grid,
+            .projects-grid,
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+
+            .todo-input-section {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+        }
+        
+        .scroll-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-progress"></div>
+    </div>
+
+    <!-- Starfield Background -->
+    <div class="starfield" id="starfield"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">AVF</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" data-page="home" class="nav-link active">Home</a></li>
+                <li><a href="#" data-page="about" class="nav-link">About</a></li>
+                <li><a href="#" data-page="projects" class="nav-link">Projects</a></li>
+                <li><a href="#" data-page="todo" class="nav-link">To-Do App</a></li>
+                <li><a href="#" data-page="products" class="nav-link">Product Filter</a></li>
+                <li><a href="#" data-page="contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page active" id="home">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Ayush Vitthal Fande</h1>
+                <p>AI & Data Science Enthusiast | Web Developer | Problem Solver</p>
+                <a href="#" class="cta-button" onclick="showPage('projects')">Explore My Work</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div class="page" id="about">
+        <div class="about-container">
+            <div class="about-header">
+                <h2 class="fade-in">About Me</h2>
+                <p class="fade-in">Passionate about creating innovative solutions through technology</p>
+            </div>
+            
+            <div class="glass-card fade-in">
+                <h3>Bio</h3>
+                <p>Hello! I'm Ayush Vitthal Fande, a passionate AI & Data Science enthusiast and web developer. I love exploring the intersection of artificial intelligence and web technologies to create meaningful solutions that solve real-world problems.</p>
+                <p>With a strong foundation in both frontend and backend development, I enjoy building intuitive user interfaces and robust systems. My journey in technology is driven by curiosity and a desire to continuously learn and innovate.</p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="glass-card fade-in">
+                    <h3>Technical Skills</h3>
+                    <div class="skill-item">
+                        <span>JavaScript & Python</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--progress: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span>React & Node.js</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--progress: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span>Machine Learning</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--progress: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span>Data Analysis</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--progress: 88%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card fade-in">
+                    <h3>Core Competencies</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin: 1rem 0; padding: 0.5rem; background: rgba(0, 212, 255, 0.1); border-radius: 5px;">
+                            <i class="fas fa-brain"></i> Artificial Intelligence & ML
+                        </li>
+                        <li style="margin: 1rem 0; padding: 0.5rem; background: rgba(124, 58, 237, 0.1); border-radius: 5px;">
+                            <i class="fas fa-code"></i> Full-Stack Development
+                        </li>
+                        <li style="margin: 1rem 0; padding: 0.5rem; background: rgba(255, 107, 107, 0.1); border-radius: 5px;">
+                            <i class="fas fa-chart-line"></i> Data Science & Analytics
+                        </li>
+                        <li style="margin: 1rem 0; padding: 0.5rem; background: rgba(0, 212, 255, 0.1); border-radius: 5px;">
+                            <i class="fas fa-lightbulb"></i> Problem Solving
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Page -->
+    <div class="page" id="projects">
+        <div class="projects-container">
+            <div class="about-header">
+                <h2 class="fade-in">My Projects</h2>
+                <p class="fade-in">Showcasing my latest work and experiments</p>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Todo App Page -->
+    <div class="page" id="todo">
+        <div class="todo-container">
+            <div class="about-header">
+                <h2 class="fade-in">Task Manager</h2>
+                <p class="fade-in">Stay organized and productive</p>
+            </div>
+
+            <div class="glass-card">
+                <div class="todo-input-section">
+                    <input type="text" class="todo-input" id="todoInput" placeholder="Add a new task...">
+                    <select class="filter-select" id="prioritySelect">
+                        <option value="low">Low Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                    <button class="add-btn" id="addTodoBtn">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </div>
+
+                <div class="filter-section">
+                    <button class="add-btn filter-btn" data-filter="all">All</button>
+                    <button class="add-btn filter-btn" data-filter="active">Active</button>
+                    <button class="add-btn filter-btn" data-filter="completed">Completed</button>
+                </div>
+
+                <div id="todoList" class="todo-list">
+                    <!-- Todos will be dynamically added here -->
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem; color: var(--text-muted);">
+                    <p id="todoStats">0 tasks remaining</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Filter Page -->
+    <div class="page" id="products">
+        <div class="products-container">
+            <div class="about-header">
+                <h2 class="fade-in">Product Catalog</h2>
+                <p class="fade-in">Filter and explore our collection</p>
+            </div>
+
+            <div class="filter-section">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                    <option value="home">Home & Garden</option>
+                </select>
+                
+                <select class="filter-select" id="priceFilter">
+                    <option value="all">All Prices</option>
+                    <option value="0-50">$0 - $50</option>
+                    <option value="50-100">$50 - $100</option>
+                    <option value="100-200">$100 - $200</option>
+                    <option value="200+">$200+</option>
+                </select>
+
+                <select class="filter-select" id="ratingFilter">
+                    <option value="all">All Ratings</option>
+                    <option value="4+">4+ Stars</option>
+                    <option value="3+">3+ Stars</option>
+                    <option value="2+">2+ Stars</option>
+                </select>
+
+                <input type="text" class="todo-input" id="searchInput" placeholder="Search products..." style="flex: 1;">
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div class="page" id="contact">
+        <div class="contact-container">
+            <div class="about-header">
+                <h2 class="fade-in">Get In Touch</h2>
+                <p class="fade-in">Let's collaborate on something amazing</p>
+            </div>
+
+            <form class="contact-form fade-in" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+
+            <div class="social-links fade-in">
+                <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle" title="Toggle Theme">
+        <i class="fas fa-palette"></i>
+    </div>
+
+    <script>
+        // Global Variables
+        let currentTheme = 'cosmic';
+        let todos = [];
+        let products = [];
+        let filteredProducts = [];
+        let currentFilter = 'all';
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing app...');
+            initializeStarfield();
+            initializeNavigation();
+            initializeScrollAnimations();
+            loadProjects();
+            initializeTodoApp();
+            initializeProductFilter();
+            initializeContactForm();
+            initializeThemeToggle();
+        });
+
+        // Navigation System
+        function showPage(pageId) {
+            console.log('Showing page:', pageId);
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Hide all pages
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Update navigation
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Trigger scroll animations for visible elements
+            setTimeout(() => {
+                triggerScrollAnimations();
+            }, 100);
+        }
+
+        function initializeNavigation() {
+            console.log('Initializing navigation...');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const hamburger = document.getElementById('hamburger');
+            const navLinksContainer = document.getElementById('navLinks');
+
+            // Add click listeners to navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    showPage(pageId);
+                    // Close mobile menu
+                    navLinksContainer.classList.remove('active');
+                });
+            });
+
+            // Mobile menu toggle
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    navLinksContainer.classList.toggle('active');
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav-container')) {
+                    navLinksContainer.classList.remove('active');
+                }
+            });
+        }
+
+        // Starfield Animation
+        function initializeStarfield() {
+            console.log('Initializing starfield...');
+            const starfield = document.getElementById('starfield');
+            
+            // Create stars
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = `star ${Math.random() < 0.6 ? 'small' : Math.random() < 0.3 ? 'medium' : 'large'}`;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starfield.appendChild(star);
+            }
+
+            // Create comets periodically
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    const comet = document.createElement('div');
+                    comet.className = 'comet';
+                    comet.style.top = Math.random() * 100 + '%';
+                    comet.style.left = '-100px';
+                    starfield.appendChild(comet);
+
+                    setTimeout(() => {
+                        if (comet.parentNode) {
+                            comet.parentNode.removeChild(comet);
+                        }
+                    }, 8000);
+                }
+            }, 2000);
+        }
+
+        // Scroll Animations
+        function initializeScrollAnimations() {
+            console.log('Initializing scroll animations...');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        function triggerScrollAnimations() {
+            const activePageElements = document.querySelector('.page.active')?.querySelectorAll('.fade-in');
+            if (activePageElements) {
+                activePageElements.forEach(el => {
+                    el.classList.add('visible');
+                });
+            }
+        }
+
+        // Projects Data and Loading
+        function loadProjects() {
+            console.log('Loading projects...');
+            const projectsData = [
+                {
+                    id: 1,
+                    title: "AI Chat Assistant",
+                    description: "An intelligent chatbot powered by machine learning algorithms for natural language processing.",
+                    tech: ["Python", "TensorFlow", "Flask", "React"],
+                    github: "#",
+                    demo: "#",
+                    image: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                },
+                {
+                    id: 2,
+                    title: "Data Visualization Dashboard",
+                    description: "Interactive dashboard for analyzing and visualizing complex datasets with real-time updates.",
+                    tech: ["D3.js", "Python", "Django", "PostgreSQL"],
+                    github: "#",
+                    demo: "#",
+                    image: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+                },
+                {
+                    id: 3,
+                    title: "E-commerce Platform",
+                    description: "Full-stack e-commerce solution with payment integration and inventory management.",
+                    tech: ["React", "Node.js", "MongoDB", "Stripe"],
+                    github: "#",
+                    demo: "#",
+                    image: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+                },
+                {
+                    id: 4,
+                    title: "Weather Prediction Model",
+                    description: "Machine learning model for accurate weather forecasting using historical climate data.",
+                    tech: ["Python", "Scikit-learn", "Pandas", "Matplotlib"],
+                    github: "#",
+                    demo: "#",
+                    image: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
+                },
+                {
+                    id: 5,
+                    title: "Social Media Analytics",
+                    description: "Tool for analyzing social media trends and engagement patterns across multiple platforms.",
+                    tech: ["Python", "Twitter API", "React", "Chart.js"],
+                    github: "#",
+                    demo: "#",
+                    image: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
+                },
+                {
+                    id: 6,
+                    title: "Blockchain Voting System",
+                    description: "Secure and transparent voting system built on blockchain technology for election integrity.",
+                    tech: ["Solidity", "Web3.js", "React", "Ethereum"],
+                    github: "#",
+                    demo: "#",
+                    image: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
+                }
+            ];
+
+            const projectsGrid = document.getElementById('projectsGrid');
+            if (projectsGrid) {
+                projectsGrid.innerHTML = projectsData.map(project => `
+                    <div class="project-card fade-in">
+                        <div class="project-image" style="background: ${project.image};">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; opacity: 0.3;">
+                                <i class="fas fa-code"></i>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3>${project.title}</h3>
+                            <p style="color: var(--text-muted); margin: 1rem 0;">${project.description}</p>
+                            <div style="margin: 1rem 0;">
+                                ${project.tech.map(tech => `<span style="background: var(--glass-bg); padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem; margin: 0.2rem; display: inline-block; border: 1px solid var(--glass-border);">${tech}</span>`).join('')}
+                            </div>
+                            <div class="project-links">
+                                <a href="${project.github}" class="project-link">
+                                    <i class="fab fa-github"></i> Code
+                                </a>
+                                <a href="${project.demo}" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i> Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Todo App Functionality
+        function initializeTodoApp() {
+            console.log('Initializing todo app...');
+            // Load todos from localStorage
+            todos = JSON.parse(localStorage.getItem('todos')) || [];
+            
+            const todoInput = document.getElementById('todoInput');
+            const addTodoBtn = document.getElementById('addTodoBtn');
+            const prioritySelect = document.getElementById('prioritySelect');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            if (!todoInput || !addTodoBtn) return;
+
+            // Add todo function
+            function addTodo() {
+                const text = todoInput.value.trim();
+                const priority = prioritySelect?.value || 'low';
+                
+                if (text) {
+                    const todo = {
+                        id: Date.now(),
+                        text: text,
+                        priority: priority,
+                        completed: false,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    todos.unshift(todo);
+                    saveTodos();
+                    renderTodos();
+                    todoInput.value = '';
+                    
+                    // Success feedback
+                    addTodoBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
+                    setTimeout(() => {
+                        addTodoBtn.innerHTML = '<i class="fas fa-plus"></i> Add Task';
+                    }, 1000);
+                }
+            }
+
+            // Event listeners
+            addTodoBtn.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addTodo();
+            });
+
+            // Filter buttons
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => {
+                        b.style.background = 'linear-gradient(45deg, rgba(0, 212, 255, 0.3), rgba(124, 58, 237, 0.3))';
+                    });
+                    btn.style.background = 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))';
+                    currentFilter = btn.dataset.filter;
+                    renderTodos();
+                });
+            });
+
+            renderTodos();
+        }
+
+        function renderTodos() {
+            const todoList = document.getElementById('todoList');
+            if (!todoList) return;
+
+            const filteredTodos = todos.filter(todo => {
+                if (currentFilter === 'all') return true;
+                if (currentFilter === 'active') return !todo.completed;
+                if (currentFilter === 'completed') return todo.completed;
+                return true;
+            });
+
+            todoList.innerHTML = filteredTodos.map(todo => `
+                <div class="todo-item ${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
+                    <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} 
+                           onchange="toggleTodo(${todo.id})">
+                    <div class="todo-text">
+                        <div>${todo.text}</div>
+                        <small style="color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem;">
+                            <span class="priority-badge priority-${todo.priority}">${todo.priority.toUpperCase()}</span>
+                            <span>${new Date(todo.createdAt).toLocaleDateString()}</span>
+                        </small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteTodo(${todo.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            updateTodoStats();
+        }
+
+        function updateTodoStats() {
+            const activeTodos = todos.filter(todo => !todo.completed).length;
+            const statsElement = document.getElementById('todoStats');
+            if (statsElement) {
+                statsElement.textContent = `${activeTodos} task${activeTodos !== 1 ? 's' : ''} remaining`;
+            }
+        }
+
+        function toggleTodo(id) {
+            todos = todos.map(todo => 
+                todo.id === id ? { ...todo, completed: !todo.completed } : todo
+            );
+            saveTodos();
+            renderTodos();
+        }
+
+        function deleteTodo(id) {
+            todos = todos.filter(todo => todo.id !== id);
+            saveTodos();
+            renderTodos();
+        }
+
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+
+        // Product Filter Functionality
+        function initializeProductFilter() {
+            console.log('Initializing product filter...');
+            // Sample products data
+            products = [
+                { id: 1, name: "Wireless Headphones", category: "electronics", price: 99, rating: 4.5, description: "High-quality wireless headphones with noise cancellation" },
+                { id: 2, name: "Cotton T-Shirt", category: "clothing", price: 25, rating: 4.2, description: "Comfortable 100% cotton t-shirt in multiple colors" },
+                { id: 3, name: "JavaScript Guide", category: "books", price: 35, rating: 4.8, description: "Complete guide to modern JavaScript development" },
+                { id: 4, name: "Smart Watch", category: "electronics", price: 199, rating: 4.3, description: "Feature-rich smartwatch with health tracking" },
+                { id: 5, name: "Garden Tools Set", category: "home", price: 75, rating: 4.1, description: "Essential tools for your garden maintenance" },
+                { id: 6, name: "Denim Jeans", category: "clothing", price: 60, rating: 4.4, description: "Classic fit denim jeans for everyday wear" },
+                { id: 7, name: "Python Cookbook", category: "books", price: 45, rating: 4.7, description: "Advanced Python programming techniques and recipes" },
+                { id: 8, name: "Bluetooth Speaker", category: "electronics", price: 80, rating: 4.0, description: "Portable speaker with excellent sound quality" },
+                { id: 9, name: "Plant Pot Set", category: "home", price: 30, rating: 4.2, description: "Decorative plant pots for indoor gardening" },
+                { id: 10, name: "Winter Jacket", category: "clothing", price: 120, rating: 4.6, description: "Warm and stylish winter jacket for cold weather" },
+                { id: 11, name: "Data Science Handbook", category: "books", price: 55, rating: 4.9, description: "Essential handbook for data science practitioners" },
+                { id: 12, name: "LED Lamp", category: "home", price: 40, rating: 4.3, description: "Energy-efficient LED lamp with adjustable brightness" }
+            ];
+
+            filteredProducts = [...products];
+
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            const ratingFilter = document.getElementById('ratingFilter');
+            const searchInput = document.getElementById('searchInput');
+
+            if (categoryFilter) categoryFilter.addEventListener('change', filterProducts);
+            if (priceFilter) priceFilter.addEventListener('change', filterProducts);
+            if (ratingFilter) ratingFilter.addEventListener('change', filterProducts);
+            if (searchInput) searchInput.addEventListener('input', filterProducts);
+
+            renderProducts();
+        }
+
+        function filterProducts() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            const ratingFilter = document.getElementById('ratingFilter');
+            const searchInput = document.getElementById('searchInput');
+
+            filteredProducts = products.filter(product => {
+                // Category filter
+                if (categoryFilter?.value !== 'all' && product.category !== categoryFilter.value) {
+                    return false;
+                }
+
+                // Price filter
+                if (priceFilter?.value && priceFilter.value !== 'all') {
+                    const priceRange = priceFilter.value;
+                    if (priceRange === '0-50' && product.price > 50) return false;
+                    if (priceRange === '50-100' && (product.price < 50 || product.price > 100)) return false;
+                    if (priceRange === '100-200' && (product.price < 100 || product.price > 200)) return false;
+                    if (priceRange === '200+' && product.price < 200) return false;
+                }
+
+                // Rating filter
+                if (ratingFilter?.value && ratingFilter.value !== 'all') {
+                    const minRating = parseFloat(ratingFilter.value.replace('+', ''));
+                    if (product.rating < minRating) return false;
+                }
+
+                // Search filter
+                const searchTerm = searchInput?.value?.toLowerCase() || '';
+                if (searchTerm && !product.name.toLowerCase().includes(searchTerm) && 
+                    !product.description.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            if (!productsGrid) return;
+            
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-muted);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <p>No products found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            productsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card fade-in">
+                    <h4>${product.name}</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0;">${product.description}</p>
+                    <div class="product-rating">
+                        ${generateStars(product.rating)}
+                        <span style="margin-left: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">(${product.rating})</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                        <div class="product-price">${product.price}</div>
+                        <span style="background: var(--glass-bg); padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem; border: 1px solid var(--glass-border); text-transform: capitalize;">
+                            ${product.category}
+                        </span>
+                    </div>
+                    <button style="width: 100%; margin-top: 1rem; padding: 0.8rem; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; border-radius: 8px; color: white; cursor: pointer; transition: all 0.3s ease;" 
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 20px rgba(0, 212, 255, 0.3)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            
+            return '★'.repeat(fullStars) + 
+                   (hasHalfStar ? '☆' : '') + 
+                   '☆'.repeat(emptyStars);
+        }
+
+        // Contact Form
+        function initializeContactForm() {
+            console.log('Initializing contact form...');
+            const contactForm = document.getElementById('contactForm');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitBtn = contactForm.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    // Show loading state
+                    submitBtn.innerHTML = '<div class="loading"></div> Sending...';
+                    submitBtn.disabled = true;
+                    
+                    // Simulate form submission
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+                        submitBtn.style.background = 'linear-gradient(45deg, #4caf50, #45a049)';
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        setTimeout(() => {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.style.background = 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))';
+                            submitBtn.disabled = false;
+                        }, 3000);
+                    }, 2000);
+                });
+            }
+        }
+
+        // Theme Toggle
+        function initializeThemeToggle() {
+            console.log('Initializing theme toggle...');
+            const themeToggle = document.getElementById('themeToggle');
+            const themes = ['cosmic', 'aurora', 'sunset', 'forest'];
+            let currentThemeIndex = 0;
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+                    const newTheme = themes[currentThemeIndex];
+                    applyTheme(newTheme);
+                    
+                    // Update icon
+                    const icons = ['fa-palette', 'fa-star', 'fa-sun', 'fa-leaf'];
+                    themeToggle.innerHTML = `<i class="fas ${icons[currentThemeIndex]}"></i>`;
+                });
+            }
+
+            function applyTheme(theme) {
+                const root = document.documentElement;
+                
+                switch(theme) {
+                    case 'cosmic':
+                        root.style.setProperty('--primary-color', '#00d4ff');
+                        root.style.setProperty('--secondary-color', '#7c3aed');
+                        root.style.setProperty('--accent-color', '#ff6b6b');
+                        break;
+                    case 'aurora':
+                        root.style.setProperty('--primary-color', '#00ff88');
+                        root.style.setProperty('--secondary-color', '#0099ff');
+                        root.style.setProperty('--accent-color', '#ff3366');
+                        break;
+                    case 'sunset':
+                        root.style.setProperty('--primary-color', '#ff6b35');
+                        root.style.setProperty('--secondary-color', '#f7931e');
+                        root.style.setProperty('--accent-color', '#c5299b');
+                        break;
+                    case 'forest':
+                        root.style.setProperty('--primary-color', '#4caf50');
+                        root.style.setProperty('--secondary-color', '#2e7d32');
+                        root.style.setProperty('--accent-color', '#ff5722');
+                        break;
+                }
+            }
+        }
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            if (scrollProgress) {
+                const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                scrollProgress.style.width = scrollPercent + '%';
+            }
+        });
+
+        // Make functions globally available for onclick handlers
+        window.showPage = showPage;
+        window.toggleTodo = toggleTodo;
+        window.deleteTodo = deleteTodo;
+    </script>
+</body>
+</html>
